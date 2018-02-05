@@ -1,10 +1,10 @@
 {
-  "name": "mantra-core-extra",
+  "name": "mantra-core",
   "version": "1.8.2",
   "description": "Core API for Mantra. Originally by mantrajs.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tmpg/mantra-core-extra.git"
+    "url": "https://github.com/nyby/mantra-core.git"
   },
   "license": "MIT",
   "options": {
