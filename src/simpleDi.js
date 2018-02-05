@@ -1,7 +1,7 @@
-import React from 'react'; // eslint-disable-line no-unused-vars
+import React from 'react';
 import hoistStatics from 'hoist-non-react-statics';
+import CreateReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 
 const getDisplayName = Component => (
   Component.displayName || Component.name || 'Component'
@@ -23,7 +23,7 @@ export function injectDeps(context, _actions) {
   }
 
   return function (Component) {
-    const ComponentWithDeps = createReactClass({
+    const ComponentWithDeps = CreateReactClass({
       childContextTypes: {
         context: PropTypes.object,
         actions: PropTypes.object
@@ -53,7 +53,7 @@ const defaultMapper = (context, actions) => ({
 
 export function useDeps(mapper = defaultMapper) {
   return function (Component) {
-    const ComponentUseDeps = createReactClass({
+    const ComponentUseDeps = CreateReactClass({
       render() {
         const {context, actions} = this.context;
         const mappedProps = mapper(context, actions);
