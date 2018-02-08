@@ -1,6 +1,6 @@
 {
   "name": "mantra-core",
-  "version": "1.9",
+  "version": "1.9.0",
   "description": "Core API for Mantra. Originally by mantrajs.",
   "repository": {
     "type": "git",
@@ -24,9 +24,9 @@
     "babel-eslint": "8.x.x",
     "babel-plugin-transform-runtime": "6.x.x",
     "babel-polyfill": "6.x.x",
-    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "chai": "4.x.x",
     "eslint": "4.8.x",
     "eslint-plugin-babel": "4.x.x",

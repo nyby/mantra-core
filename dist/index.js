@@ -1,19 +1,36 @@
-import { useDeps as _useDeps } from './simpleDi';
+'use strict';
 
-import { compose as _compose, composeWithTracker as _composeWithTracker, composeWithPromise as _composeWithPromise, composeWithObservable as _composeWithObservable, composeAll as _composeAll, disable as _disable } from 'react-komposer';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.disable = exports.composeAll = exports.composeWithObservable = exports.composeWithPromise = exports.composeWithTracker = exports.compose = exports.useDeps = exports.createApp = undefined;
 
-import App from './app';
+var _simpleDi = require('./simpleDi');
+
+var _reactKomposer = require('react-komposer');
+
+var _app = require('./app');
+
+var _app2 = _interopRequireDefault(_app);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // export this module's functions
-export const createApp = (...args) => new App(...args);
+var createApp = exports.createApp = function createApp() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return new (Function.prototype.bind.apply(_app2.default, [null].concat(args)))();
+};
 
 // export react-simple-di functions
-export const useDeps = _useDeps;
+var useDeps = exports.useDeps = _simpleDi.useDeps;
 
 // export react-komposer functions
-export const compose = _compose;
-export const composeWithTracker = _composeWithTracker;
-export const composeWithPromise = _composeWithPromise;
-export const composeWithObservable = _composeWithObservable;
-export const composeAll = _composeAll;
-export const disable = _disable;
+var compose = exports.compose = _reactKomposer.compose;
+var composeWithTracker = exports.composeWithTracker = _reactKomposer.composeWithTracker;
+var composeWithPromise = exports.composeWithPromise = _reactKomposer.composeWithPromise;
+var composeWithObservable = exports.composeWithObservable = _reactKomposer.composeWithObservable;
+var composeAll = exports.composeAll = _reactKomposer.composeAll;
+var disable = exports.disable = _reactKomposer.disable;

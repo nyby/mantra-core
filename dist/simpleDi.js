@@ -1,18 +1,45 @@
-import _extends from 'babel-runtime/helpers/extends';
-import React from 'react';
-import hoistStatics from 'hoist-non-react-statics';
-import CreateReactClass from 'create-react-class';
-import PropTypes from 'prop-types';
+'use strict';
 
-const getDisplayName = Component => Component.displayName || Component.name || 'Component';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-export function injectDeps(context, _actions) {
-  const actions = {};
-  for (let key in _actions) {
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.injectDeps = injectDeps;
+exports.useDeps = useDeps;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _hoistNonReactStatics = require('hoist-non-react-statics');
+
+var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
+
+var _createReactClass = require('create-react-class');
+
+var _createReactClass2 = _interopRequireDefault(_createReactClass);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getDisplayName = function getDisplayName(Component) {
+  return Component.displayName || Component.name || 'Component';
+};
+
+function injectDeps(context, _actions) {
+  var actions = {};
+  for (var key in _actions) {
     if (_actions.hasOwnProperty(key)) {
-      const actionMap = _actions[key];
-      const newActionMap = {};
-      for (let actionName in actionMap) {
+      var actionMap = _actions[key];
+      var newActionMap = {};
+      for (var actionName in actionMap) {
         if (actionMap.hasOwnProperty(actionName)) {
           newActionMap[actionName] = actionMap[actionName].bind(null, context);
         }
@@ -22,53 +49,64 @@ export function injectDeps(context, _actions) {
   }
 
   return function (Component) {
-    const ComponentWithDeps = CreateReactClass({
+    var ComponentWithDeps = (0, _createReactClass2.default)({
       childContextTypes: {
-        context: PropTypes.object,
-        actions: PropTypes.object
+        context: _propTypes2.default.object,
+        actions: _propTypes2.default.object
       },
 
-      getChildContext() {
+      getChildContext: function getChildContext() {
         return {
-          context,
-          actions
+          context: context,
+          actions: actions
         };
       },
-
-      render() {
-        return React.createElement(Component, this.props);
+      render: function render() {
+        return _react2.default.createElement(Component, this.props);
       }
     });
 
-    ComponentWithDeps.displayName = `WithDeps(${getDisplayName(Component)})`;
-    return hoistStatics(ComponentWithDeps, Component);
+    ComponentWithDeps.displayName = 'WithDeps(' + getDisplayName(Component) + ')';
+    return (0, _hoistNonReactStatics2.default)(ComponentWithDeps, Component);
   };
 }
 
-const defaultMapper = (context, actions) => ({
-  context: () => context,
-  actions: () => actions
-});
+var defaultMapper = function defaultMapper(_context, _actions2) {
+  return {
+    context: function context() {
+      return _context;
+    },
+    actions: function actions() {
+      return _actions2;
+    }
+  };
+};
 
-export function useDeps(mapper = defaultMapper) {
+function useDeps() {
+  var mapper = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultMapper;
+
   return function (Component) {
-    const ComponentUseDeps = CreateReactClass({
-      render() {
-        const { context, actions } = this.context;
-        const mappedProps = mapper(context, actions);
+    var ComponentUseDeps = (0, _createReactClass2.default)({
+      render: function render() {
+        var _context2 = this.context,
+            context = _context2.context,
+            actions = _context2.actions;
 
-        const newProps = _extends({}, this.props, mappedProps);
+        var mappedProps = mapper(context, actions);
 
-        return React.createElement(Component, newProps);
+        var newProps = (0, _extends3.default)({}, this.props, mappedProps);
+
+        return _react2.default.createElement(Component, newProps);
       },
 
+
       contextTypes: {
-        context: PropTypes.object,
-        actions: PropTypes.object
+        context: _propTypes2.default.object,
+        actions: _propTypes2.default.object
       }
     });
 
-    ComponentUseDeps.displayName = `UseDeps(${getDisplayName(Component)})`;
-    return hoistStatics(ComponentUseDeps, Component);
+    ComponentUseDeps.displayName = 'UseDeps(' + getDisplayName(Component) + ')';
+    return (0, _hoistNonReactStatics2.default)(ComponentUseDeps, Component);
   };
 }
