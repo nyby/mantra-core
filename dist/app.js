@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -35,7 +31,7 @@ var App = function () {
 
     this.context = context;
     this.actions = {};
-    this._routeFns = [];
+    this._root = null;
   }
 
   (0, _createClass3.default)(App, [{
@@ -59,7 +55,7 @@ var App = function () {
     }
   }, {
     key: 'loadModule',
-    value: function loadModule(module) {
+    value: function loadModule(name, module) {
       this._checkForInit();
 
       if (!module) {
@@ -72,13 +68,13 @@ var App = function () {
         throw new Error(_message);
       }
 
-      if (module.routes) {
-        if (typeof module.routes !== 'function') {
-          var _message2 = 'Module\'s routes field should be a function.';
+      if (name === 'coreModule' && module.root) {
+        if (typeof module.root !== 'function') {
+          var _message2 = 'Core module must have a root component.';
           throw new Error(_message2);
         }
 
-        this._routeFns.push(module.routes);
+        this._root = module.root;
       }
 
       var actions = module.actions || {};
@@ -86,7 +82,7 @@ var App = function () {
 
       if (module.load) {
         if (typeof module.load !== 'function') {
-          var _message3 = 'module.load should be a function';
+          var _message3 = 'module.load should be a function.';
           throw new Error(_message3);
         }
 
@@ -104,43 +100,24 @@ var App = function () {
 
       this._checkForInit();
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = (0, _getIterator3.default)(this._routeFns), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var routeFn = _step.value;
-
-          var inject = function inject(comp) {
-            return (0, _simpleDi.injectDeps)(_this.context, _this.actions)(comp);
-          };
-
-          routeFn(inject, this.context, this.actions);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+      if (!this._root) {
+        var message = 'The application must have a "coreModule".';
+        throw new Error(message);
       }
 
-      this._routeFns = [];
+      var inject = function inject(comp) {
+        return (0, _simpleDi.injectDeps)(_this.context, _this.actions)(comp);
+      };
+
+      this._root = this._root(inject, this.context, this.actions);
+
       this.__initialized = true;
     }
   }, {
     key: '_checkForInit',
     value: function _checkForInit() {
       if (this.__initialized) {
-        var message = 'App is already initialized';
+        var message = 'App is already initialized.';
         throw new Error(message);
       }
     }
