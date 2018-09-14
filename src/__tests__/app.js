@@ -1,5 +1,5 @@
-import {expect} from 'chai';
 import App from '../app';
+import {expect} from 'chai';
 const {describe, it} = global;
 
 describe('App', () => {
@@ -33,27 +33,6 @@ describe('App', () => {
       module.__loaded = true;
       const errorMatch = /This module is already loaded/;
       expect(app.loadModule.bind(app, module)).to.throw(errorMatch);
-    });
-
-    describe('has routes field', () => {
-      it('should fail if routes is not a function', () => {
-        const app = new App({});
-        const module = {
-          routes: {}
-        };
-        const errorMatch = /Module's routes field should be a function/;
-        expect(app.loadModule.bind(app, module)).to.throw(errorMatch);
-      });
-
-      it('should save routes if it is a function', () => {
-        const app = new App({});
-        const module = {
-          routes() {}
-        };
-
-        app.loadModule(module);
-        expect(app._routeFns).to.be.deep.equal([ module.routes ]);
-      });
     });
 
     it('should merge actions with app wide global actions', () => {

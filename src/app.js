@@ -1,6 +1,4 @@
-import {
-  injectDeps
-} from './simpleDi';
+import {injectDeps} from './simpleDi';
 
 export default class App {
   constructor(context) {
@@ -11,7 +9,7 @@ export default class App {
 
     this.context = context;
     this.actions = {};
-    this._routeFns = [];
+    this._root = null;
   }
 
   _bindContext(_actions) {
@@ -22,8 +20,7 @@ export default class App {
         const newActionMap = {};
         for (let actionName in actionMap) {
           if (actionMap.hasOwnProperty(actionName)) {
-            newActionMap[actionName] =
-              actionMap[actionName].bind(null, this.context);
+            newActionMap[actionName] = actionMap[actionName].bind(null, this.context);
           }
         }
         actions[key] = newActionMap;
@@ -33,7 +30,7 @@ export default class App {
     return actions;
   }
 
-  loadModule(module) {
+  loadModule(name, module) {
     this._checkForInit();
 
     if (!module) {
@@ -46,24 +43,24 @@ export default class App {
       throw new Error(message);
     }
 
-    if (module.routes) {
-      if (typeof module.routes !== 'function') {
-        const message = 'Module\'s routes field should be a function.';
+    if (name === 'coreModule' && module.root) {
+      if (typeof module.root !== 'function') {
+        const message = 'Core module must have a root component.';
         throw new Error(message);
       }
 
-      this._routeFns.push(module.routes);
+      this._root = module.root;
     }
 
     const actions = module.actions || {};
     this.actions = {
       ...this.actions,
-      ...actions
+      ...actions,
     };
 
     if (module.load) {
       if (typeof module.load !== 'function') {
-        const message = 'module.load should be a function';
+        const message = 'module.load should be a function.';
         throw new Error(message);
       }
 
@@ -78,21 +75,23 @@ export default class App {
   init() {
     this._checkForInit();
 
-    for (const routeFn of this._routeFns) {
-      const inject = comp => {
-        return injectDeps(this.context, this.actions)(comp);
-      };
-
-      routeFn(inject, this.context, this.actions);
+    if (!this._root) {
+      const message = 'The application must have a "coreModule".';
+      throw new Error(message);
     }
 
-    this._routeFns = [];
+    const inject = (comp) => {
+      return injectDeps(this.context, this.actions)(comp);
+    };
+
+    this._root = this._root(inject, this.context, this.actions);
+
     this.__initialized = true;
   }
 
   _checkForInit() {
     if (this.__initialized) {
-      const message = 'App is already initialized';
+      const message = 'App is already initialized.';
       throw new Error(message);
     }
   }
