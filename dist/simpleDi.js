@@ -8,6 +8,26 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 exports.injectDeps = injectDeps;
 exports.useDeps = useDeps;
 
@@ -15,17 +35,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _hoistNonReactStatics = require('hoist-non-react-statics');
-
-var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
-
-var _createReactClass = require('create-react-class');
-
-var _createReactClass2 = _interopRequireDefault(_createReactClass);
-
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _hoistNonReactStatics = require('hoist-non-react-statics');
+
+var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,23 +65,35 @@ function injectDeps(context, _actions) {
   }
 
   return function (Component) {
-    var ComponentWithDeps = (0, _createReactClass2.default)({
-      childContextTypes: {
-        context: _propTypes2.default.object,
-        actions: _propTypes2.default.object
-      },
+    var ComponentWithDeps = function (_PureComponent) {
+      (0, _inherits3.default)(ComponentWithDeps, _PureComponent);
 
-      getChildContext: function getChildContext() {
-        return {
-          context: context,
-          actions: actions
-        };
-      },
-      render: function render() {
-        return _react2.default.createElement(Component, this.props);
+      function ComponentWithDeps() {
+        (0, _classCallCheck3.default)(this, ComponentWithDeps);
+        return (0, _possibleConstructorReturn3.default)(this, (ComponentWithDeps.__proto__ || (0, _getPrototypeOf2.default)(ComponentWithDeps)).apply(this, arguments));
       }
-    });
 
+      (0, _createClass3.default)(ComponentWithDeps, [{
+        key: 'getChildContext',
+        value: function getChildContext() {
+          return {
+            context: context,
+            actions: actions
+          };
+        }
+      }, {
+        key: 'render',
+        value: function render() {
+          return _react2.default.createElement(Component, this.props);
+        }
+      }]);
+      return ComponentWithDeps;
+    }(_react.PureComponent);
+
+    ComponentWithDeps.childContextTypes = {
+      context: _propTypes2.default.object,
+      actions: _propTypes2.default.object
+    };
     ComponentWithDeps.displayName = 'WithDeps(' + getDisplayName(Component) + ')';
     return (0, _hoistNonReactStatics2.default)(ComponentWithDeps, Component);
   };
@@ -86,25 +114,35 @@ function useDeps() {
   var mapper = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultMapper;
 
   return function (Component) {
-    var ComponentUseDeps = (0, _createReactClass2.default)({
-      render: function render() {
-        var _context2 = this.context,
-            context = _context2.context,
-            actions = _context2.actions;
+    var ComponentUseDeps = function (_PureComponent2) {
+      (0, _inherits3.default)(ComponentUseDeps, _PureComponent2);
 
-        var mappedProps = mapper(context, actions);
-
-        var newProps = (0, _extends3.default)({}, this.props, mappedProps);
-
-        return _react2.default.createElement(Component, newProps);
-      },
-
-
-      contextTypes: {
-        context: _propTypes2.default.object,
-        actions: _propTypes2.default.object
+      function ComponentUseDeps() {
+        (0, _classCallCheck3.default)(this, ComponentUseDeps);
+        return (0, _possibleConstructorReturn3.default)(this, (ComponentUseDeps.__proto__ || (0, _getPrototypeOf2.default)(ComponentUseDeps)).apply(this, arguments));
       }
-    });
+
+      (0, _createClass3.default)(ComponentUseDeps, [{
+        key: 'render',
+        value: function render() {
+          var _context2 = this.context,
+              context = _context2.context,
+              actions = _context2.actions;
+
+          var mappedProps = mapper(context, actions);
+
+          var newProps = (0, _extends3.default)({}, this.props, mappedProps);
+
+          return _react2.default.createElement(Component, newProps);
+        }
+      }]);
+      return ComponentUseDeps;
+    }(_react.PureComponent);
+
+    ComponentUseDeps.contextTypes = {
+      context: _propTypes2.default.object,
+      actions: _propTypes2.default.object
+    };
 
     ComponentUseDeps.displayName = 'UseDeps(' + getDisplayName(Component) + ')';
     return (0, _hoistNonReactStatics2.default)(ComponentUseDeps, Component);
