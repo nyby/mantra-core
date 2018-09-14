@@ -38,11 +38,11 @@
     "babel-runtime": "6.x.x",
     "hoist-non-react-statics": "2.x.x",
     "prop-types": "^15.6.0",
-    "react-komposer": "^2.0.0",
+    "react-komposer": "1.13.1",
     "save": "^2.3.2"
   },
   "peerDependencies": {
-    "react-komposer": "^1.13.1",
+    "react-komposer": "1.13.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1"
