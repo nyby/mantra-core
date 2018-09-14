@@ -1,6 +1,6 @@
 import { compose } from 'react-komposer';
 
-export function composeWithTracker(reactiveFn, L, E, options) {
+export function composeWithTracker(reactiveFn, L = () => null, E = () => null, options) {
   const onPropsChange = (props, onData, context) => {
     let trackerCleanup;
     const handler = Tracker.nonreactive(() => {
