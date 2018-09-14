@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.disable = exports.composeAll = exports.composeWithObservable = exports.composeWithPromise = exports.composeWithTracker = exports.compose = exports.useDeps = exports.createApp = undefined;
+exports.composeWithTracker = exports.useDeps = exports.createApp = undefined;
 
 var _simpleDi = require('./simpleDi');
 
-var _reactKomposer = require('react-komposer');
+var _composeWithTracker2 = require('./composeWithTracker');
 
 var _app = require('./app');
 
@@ -27,10 +27,4 @@ var createApp = exports.createApp = function createApp() {
 // export react-simple-di functions
 var useDeps = exports.useDeps = _simpleDi.useDeps;
 
-// export react-komposer functions
-var compose = exports.compose = _reactKomposer.compose;
-var composeWithTracker = exports.composeWithTracker = _reactKomposer.composeWithTracker;
-var composeWithPromise = exports.composeWithPromise = _reactKomposer.composeWithPromise;
-var composeWithObservable = exports.composeWithObservable = _reactKomposer.composeWithObservable;
-var composeAll = exports.composeAll = _reactKomposer.composeAll;
-var disable = exports.disable = _reactKomposer.disable;
+var composeWithTracker = exports.composeWithTracker = _composeWithTracker2.composeWithTracker;
