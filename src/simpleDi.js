@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 
 import PropTypes from 'prop-types';
 import hoistStatics from 'hoist-non-react-statics';
@@ -21,7 +21,7 @@ export function injectDeps(context, _actions) {
   }
 
   return function(Component) {
-    class ComponentWithDeps extends PureComponent {
+    class ComponentWithDeps extends Component {
       getChildContext() {
         return {
           context,
@@ -50,7 +50,7 @@ const defaultMapper = (context, actions) => ({
 
 export function useDeps(mapper = defaultMapper) {
   return function(Component) {
-    class ComponentUseDeps extends PureComponent {
+    class ComponentUseDeps extends Component {
       render() {
         const {context, actions} = this.context;
         const mappedProps = mapper(context, actions);
