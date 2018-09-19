@@ -65,8 +65,8 @@ function injectDeps(context, _actions) {
   }
 
   return function (Component) {
-    var ComponentWithDeps = function (_PureComponent) {
-      (0, _inherits3.default)(ComponentWithDeps, _PureComponent);
+    var ComponentWithDeps = function (_Component) {
+      (0, _inherits3.default)(ComponentWithDeps, _Component);
 
       function ComponentWithDeps() {
         (0, _classCallCheck3.default)(this, ComponentWithDeps);
@@ -88,7 +88,7 @@ function injectDeps(context, _actions) {
         }
       }]);
       return ComponentWithDeps;
-    }(_react.PureComponent);
+    }(Component);
 
     ComponentWithDeps.childContextTypes = {
       context: _propTypes2.default.object,
@@ -114,8 +114,8 @@ function useDeps() {
   var mapper = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultMapper;
 
   return function (Component) {
-    var ComponentUseDeps = function (_PureComponent2) {
-      (0, _inherits3.default)(ComponentUseDeps, _PureComponent2);
+    var ComponentUseDeps = function (_Component2) {
+      (0, _inherits3.default)(ComponentUseDeps, _Component2);
 
       function ComponentUseDeps() {
         (0, _classCallCheck3.default)(this, ComponentUseDeps);
@@ -137,7 +137,7 @@ function useDeps() {
         }
       }]);
       return ComponentUseDeps;
-    }(_react.PureComponent);
+    }(Component);
 
     ComponentUseDeps.contextTypes = {
       context: _propTypes2.default.object,
