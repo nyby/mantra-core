@@ -1,6 +1,6 @@
 {
   "name": "mantra-core",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "Core API for Mantra. Originally by mantrajs.",
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "babel-runtime": "6.x.x",
+    "create-react-class": "^15.6.3",
     "hoist-non-react-statics": "2.x.x",
     "prop-types": "^15.6.0",
     "react-komposer": "2.0.0",

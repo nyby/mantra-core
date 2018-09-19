@@ -1,9 +1,11 @@
-import React, {Component} from 'react';
-
-import PropTypes from 'prop-types';
+import React from 'react';
 import hoistStatics from 'hoist-non-react-statics';
+import CreateReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 
-const getDisplayName = (Component) => Component.displayName || Component.name || 'Component';
+const getDisplayName = Component => (
+  Component.displayName || Component.name || 'Component'
+);
 
 export function injectDeps(context, _actions) {
   const actions = {};
@@ -20,24 +22,25 @@ export function injectDeps(context, _actions) {
     }
   }
 
-  return function(Component) {
-    class ComponentWithDeps extends Component {
+  return function (Component) {
+    const ComponentWithDeps = CreateReactClass({
+      childContextTypes: {
+        context: PropTypes.object,
+        actions: PropTypes.object
+      },
+
       getChildContext() {
         return {
           context,
-          actions,
+          actions
         };
-      }
+      },
 
       render() {
-        return <Component {...this.props} />;
+        return (<Component {...this.props} />);
       }
-    }
+    });
 
-    ComponentWithDeps.childContextTypes = {
-      context: PropTypes.object,
-      actions: PropTypes.object,
-    };
     ComponentWithDeps.displayName = `WithDeps(${getDisplayName(Component)})`;
     return hoistStatics(ComponentWithDeps, Component);
   };
@@ -45,29 +48,29 @@ export function injectDeps(context, _actions) {
 
 const defaultMapper = (context, actions) => ({
   context: () => context,
-  actions: () => actions,
+  actions: () => actions
 });
 
 export function useDeps(mapper = defaultMapper) {
-  return function(Component) {
-    class ComponentUseDeps extends Component {
+  return function (Component) {
+    const ComponentUseDeps = CreateReactClass({
       render() {
         const {context, actions} = this.context;
         const mappedProps = mapper(context, actions);
 
         const newProps = {
           ...this.props,
-          ...mappedProps,
+          ...mappedProps
         };
 
-        return <Component {...newProps} />;
-      }
-    }
+        return (<Component {...newProps} />);
+      },
 
-    ComponentUseDeps.contextTypes = {
-      context: PropTypes.object,
-      actions: PropTypes.object,
-    };
+      contextTypes: {
+        context: PropTypes.object,
+        actions: PropTypes.object
+      }
+    });
 
     ComponentUseDeps.displayName = `UseDeps(${getDisplayName(Component)})`;
     return hoistStatics(ComponentUseDeps, Component);
