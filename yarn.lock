@@ -2704,9 +2704,9 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-komposer@2.0.0:
+"react-komposer@https://github.com/nyby/react-komposer":
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-komposer/-/react-komposer-2.0.0.tgz#b964738014a9b4aee494a83c0b5b833d66072a90"
+  resolved "https://github.com/nyby/react-komposer#e026d390428ed54895da961d24d6fcda95a142df"
   dependencies:
     babel-runtime "^6.11.6"
     hoist-non-react-statics "^1.2.0"
