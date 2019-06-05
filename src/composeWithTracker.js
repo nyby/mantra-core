@@ -1,10 +1,11 @@
 import { compose } from 'react-komposer';
 
 export function composeWithTracker(reactiveFn, L = () => null, E = () => null, options) {
-  const onPropsChange = (props, onData, context) => {
+  const onPropsChange = (props, onData, context, container) => {
     let trackerCleanup;
     const handler = Tracker.nonreactive(() => {
       return Tracker.autorun(() => {
+        if (container._unmounted) {return;}
         trackerCleanup = reactiveFn(props, onData, context);
       });
     });
