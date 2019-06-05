@@ -16,10 +16,13 @@ function composeWithTracker(reactiveFn) {
   };
   var options = arguments[3];
 
-  var onPropsChange = function onPropsChange(props, onData, context) {
+  var onPropsChange = function onPropsChange(props, onData, context, container) {
     var trackerCleanup = void 0;
     var handler = Tracker.nonreactive(function () {
       return Tracker.autorun(function () {
+        if (container._unmounted) {
+          return;
+        }
         trackerCleanup = reactiveFn(props, onData, context);
       });
     });
