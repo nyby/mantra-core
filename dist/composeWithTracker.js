@@ -23,7 +23,7 @@ function composeWithTracker(reactiveFn) {
         if (container._unmounted) {
           return;
         }
-        trackerCleanup = reactiveFn(props, onData, context);
+        trackerCleanup = reactiveFn(props, onData, context, container);
       });
     });
 

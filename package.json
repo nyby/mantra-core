@@ -1,6 +1,6 @@
 {
   "name": "mantra-core",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "description": "Core API for Mantra. Originally by mantrajs.",
   "repository": {
     "type": "git",

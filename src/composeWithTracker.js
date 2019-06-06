@@ -6,7 +6,7 @@ export function composeWithTracker(reactiveFn, L = () => null, E = () => null, o
     const handler = Tracker.nonreactive(() => {
       return Tracker.autorun(() => {
         if (container._unmounted) {return;}
-        trackerCleanup = reactiveFn(props, onData, context);
+        trackerCleanup = reactiveFn(props, onData, context, container);
       });
     });
 
